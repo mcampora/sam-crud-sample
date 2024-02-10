@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  sam-crud-sample
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  Architecture:
+    Type: String
+    #Default: x86_64
+    Default: arm64      
+
+Resources:
+  getAllItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - !Sub ${Architecture}
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemTable
+      Environment:
+        Variables:
+          ITEM_TABLE: !Ref ItemTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+
+  getItemByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-item-by-id.getItemByIdHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - !Sub ${Architecture}
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemTable
+      Environment:
+        Variables:
+          ITEM_TABLE: !Ref ItemTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: GET
+
+  putItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/put-item.putItemHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - !Sub ${Architecture}
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemTable
+      Environment:
+        Variables:
+          ITEM_TABLE: !Ref ItemTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+
+  softDeleteItemByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/soft-delete-item-by-id.softDeleteItemByIdHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - !Sub ${Architecture}
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP delete method to flag one item as dleeted in a DynamoDB table.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemTable
+      Environment:
+        Variables:
+          ITEM_TABLE: !Ref ItemTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: DELETE
+
+  # { 'id': ID, 'name': NAME, 'isActive': BOOLEAN }
+  ItemTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
