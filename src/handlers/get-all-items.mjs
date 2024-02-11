@@ -33,7 +33,11 @@ export const getAllItemsHandler = async (event) => {
     } catch (err) {
         console.log("Error", err);
     }
-    const filtered = items.filter(item => item.isActive === true);
+
+    var filtered = []
+    if (items) {
+        filtered = items.filter(item => item.isActive === true);
+    }
     const response = {
         statusCode: 200,
         body: JSON.stringify(filtered)

@@ -8,8 +8,8 @@ Transform:
 Parameters:
   Architecture:
     Type: String
-    #Default: x86_64
-    Default: arm64      
+    Default: x86_64
+    #Default: arm64      
 
 Resources:
   getAllItemsFunction:
@@ -32,7 +32,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /items
             Method: GET
 
   getItemByIdFunction:
@@ -55,7 +55,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /items/{id}
             Method: GET
 
   putItemFunction:
@@ -78,7 +78,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /items
             Method: POST
 
   softDeleteItemByIdFunction:
@@ -101,13 +101,14 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /items/{id}
             Method: DELETE
 
-  # { 'id': ID, 'name': NAME, 'isActive': BOOLEAN }
+  # { 'id': STRING, 'name': STRING, 'isActive': BOOLEAN }
   ItemTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
+      TableName: ItemTable
       PrimaryKey:
         Name: id
         Type: String

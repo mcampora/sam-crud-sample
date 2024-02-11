@@ -64,25 +64,25 @@ $ sam logs -n putItemFunction --stack-name sam-app --tail
 
 ## Unit tests
 Tests are defined in the `__tests__` folder in this project. Use `npm` to install the [Jest test framework](https://jestjs.io/) and run unit tests.
-
 ```bash
-my-application$ npm install
-my-application$ npm run test
+$ npm install
+$ npm run test
 ```
 
 ## Cleanup
 To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
 ```bash
-sam delete --stack-name sam-crud-sample
+$ sam delete --stack-name sam-crud-sample
 ```
 
 ## Todo
-- Auth0 integration or API GW custom authorization demo
-- hard delete if admin role
-- get all with pagination
-  - proper scan with filter and global index
-  - return and accept a pagination key
-- local and remote tests
-- unit tests
+- Auth0 integration 
+  - API GW custom authorizers
+    - https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
+    - https://auth0.com/docs/customize/integrations/aws/aws-api-gateway-custom-authorizers  
 - generalise / one file per entity / base class
+- hard delete if admin role
+- get_all with consistent pagination
+  - proper scan with filter and global index
+  - return and accept a pagination parameters (ie. page size, key)
 - webSocket API

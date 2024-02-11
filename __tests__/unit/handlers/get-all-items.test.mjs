@@ -10,9 +10,9 @@ describe('Test getAllItemsHandler', () => {
  
     beforeEach(() => {
         ddbMock.reset();
-      });
+    });
  
-    it('should return ids', async () => { 
+    it('should return all ids', async () => { 
         const items = [{ id: 'id1', isActive: true }, { id: 'id2', isActive: true }]; 
  
         // Return the specified value whenever the spied scan function is called 
@@ -35,4 +35,30 @@ describe('Test getAllItemsHandler', () => {
         // Compare the result with the expected result 
         expect(result).toEqual(expectedResult); 
     }); 
+
+    it('should return only one id', async () => { 
+        const items = [{ id: 'id1', isActive: true }, { id: 'id2', isActive: false }]; 
+        const itemsReturned = [{ id: 'id1', isActive: true }]; 
+ 
+        // Return the specified value whenever the spied scan function is called 
+        ddbMock.on(ScanCommand).resolves({
+            Items: items,
+        }); 
+ 
+        const event = { 
+            httpMethod: 'GET' 
+        };
+ 
+        // Invoke helloFromLambdaHandler() 
+        const result = await getAllItemsHandler(event); 
+ 
+        const expectedResult = { 
+            statusCode: 200, 
+            body: JSON.stringify(itemsReturned) 
+        }; 
+ 
+        // Compare the result with the expected result 
+        expect(result).toEqual(expectedResult); 
+    }); 
+
 }); 

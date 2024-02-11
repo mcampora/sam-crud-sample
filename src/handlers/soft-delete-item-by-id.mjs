@@ -43,7 +43,7 @@ export const softDeleteItemByIdHandler = async (event) => {
 
   const response = {
     statusCode: 200,
-    body: JSON.stringify("Success - item deleted (soft)")
+    body: "Success - item deleted (soft)"
   };
 
   // All log statements are written to CloudWatch
