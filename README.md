@@ -80,7 +80,6 @@ $ sam delete --stack-name sam-crud-sample
   - API GW custom authorizers
     - https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
     - https://auth0.com/docs/customize/integrations/aws/aws-api-gateway-custom-authorizers  
-- generalise / one file per entity / base class
 - hard delete if admin role
 - get_all with consistent pagination
   - proper scan with filter and global index

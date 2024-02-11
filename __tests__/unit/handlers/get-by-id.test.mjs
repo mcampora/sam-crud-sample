@@ -1,6 +1,5 @@
-// Import getByIdHandler function from get-by-id.mjs 
-import { getItemByIdHandler } from '../../../src/handlers/get-item-by-id.mjs'; 
-// Import dynamodb from aws-sdk 
+import { itemHandler } from '../../../src/handlers/item-handlers.mjs'; 
+
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
  
@@ -29,7 +28,7 @@ describe('Test getItemByIdHandler', () => {
         };
  
         // Invoke getByIdHandler() 
-        const result = await getItemByIdHandler(event); 
+        const result = await itemHandler(event); 
  
         const expectedResult = { 
             statusCode: 200, 

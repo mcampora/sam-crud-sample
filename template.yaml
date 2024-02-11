@@ -15,7 +15,7 @@ Resources:
   getAllItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Handler: src/handlers/item-handlers.itemHandler
       Runtime: nodejs18.x
       Architectures:
         - !Sub ${Architecture}
@@ -38,7 +38,7 @@ Resources:
   getItemByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-item-by-id.getItemByIdHandler
+      Handler: src/handlers/item-handlers.itemHandler
       Runtime: nodejs18.x
       Architectures:
         - !Sub ${Architecture}
@@ -61,7 +61,7 @@ Resources:
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/put-item.putItemHandler
+      Handler: src/handlers/item-handlers.itemHandler
       Runtime: nodejs18.x
       Architectures:
         - !Sub ${Architecture}
@@ -84,7 +84,7 @@ Resources:
   softDeleteItemByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/soft-delete-item-by-id.softDeleteItemByIdHandler
+      Handler: src/handlers/item-handlers.itemHandler
       Runtime: nodejs18.x
       Architectures:
         - !Sub ${Architecture}

@@ -1,6 +1,5 @@
-// Import putItemHandler function from put-item.mjs 
-import { putItemHandler } from '../../../src/handlers/put-item.mjs';
-// Import dynamodb from aws-sdk 
+import { itemHandler } from '../../../src/handlers/item-handlers.mjs';
+
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 // This includes all tests for putItemHandler() 
@@ -26,7 +25,7 @@ describe('Test putItemHandler', function () {
         }; 
      
         // Invoke putItemHandler() 
-        const result = await putItemHandler(event); 
+        const result = await itemHandler(event); 
         
         const expectedResult = { 
             statusCode: 200, 

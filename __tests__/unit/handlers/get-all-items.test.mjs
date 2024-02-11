@@ -1,6 +1,6 @@
-// Import getAllItemsHandler function from get-all-items.mjs 
-import { getAllItemsHandler } from '../../../src/handlers/get-all-items.mjs';
-// Import dynamodb from aws-sdk 
+//import { getAllItemsHandler } from '../../../src/handlers/get-all-items.mjs';
+import { itemHandler } from '../../../src/handlers/item-handlers.mjs';
+
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
  
@@ -25,7 +25,7 @@ describe('Test getAllItemsHandler', () => {
         };
  
         // Invoke helloFromLambdaHandler() 
-        const result = await getAllItemsHandler(event); 
+        const result = await itemHandler(event); 
  
         const expectedResult = { 
             statusCode: 200, 
@@ -50,7 +50,7 @@ describe('Test getAllItemsHandler', () => {
         };
  
         // Invoke helloFromLambdaHandler() 
-        const result = await getAllItemsHandler(event); 
+        const result = await itemHandler(event); 
  
         const expectedResult = { 
             statusCode: 200, 
