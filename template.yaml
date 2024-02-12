@@ -12,6 +12,23 @@ Parameters:
     #Default: arm64      
 
 Resources:
+  api:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Auth:
+        DefaultAuthorizer: lambdaTokenAuthorizer
+        Authorizers:
+          lambdaTokenAuthorizer:
+            FunctionArn: !GetAtt authFunction.Arn
+
+  authFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/handlers
+      Handler: auth.handler
+      Runtime: nodejs18.x
+
   getAllItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -31,6 +48,7 @@ Resources:
         Api:
           Type: Api
           Properties:
+            RestApiId: !Ref api
             Path: /items
             Method: GET
 
@@ -53,6 +71,7 @@ Resources:
         Api:
           Type: Api
           Properties:
+            RestApiId: !Ref api
             Path: /items/{id}
             Method: GET
 
@@ -75,6 +94,7 @@ Resources:
         Api:
           Type: Api
           Properties:
+            RestApiId: !Ref api
             Path: /items
             Method: POST
 
@@ -97,6 +117,7 @@ Resources:
         Api:
           Type: Api
           Properties:
+            RestApiId: !Ref api
             Path: /items/{id}
             Method: DELETE
 
@@ -115,4 +136,5 @@ Resources:
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    #Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${api}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

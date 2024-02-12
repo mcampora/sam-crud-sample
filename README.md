@@ -46,20 +46,20 @@ $ sam local invoke getAllItemsFunction --event events/event-get-all-items.json
 If you experience issues check your target architecture in the Parameters section (ex. arm64 for MacOS silicon) and signout from the public ecr repository (ie. docker logout public.ecr.aws).  
 
 ## Test locally or remotely the API
-The API is secured using a custom authorizer expecting a valid JWT token.
-Use the following site to create a JWT token (https://jwt.io/).
-The custom authorizer is using a hardcoded secret to validate the token signature (ie. 'my_secret') and does not integrate with any OpenID Connect service. A production grade solution would need to cover both.
-
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.
 ```bash
 $ sam local start-api
-$ curl http://localhost:3000/ -H "Authorization: Bearer <YOUR.ACCESS.TOKEN>"
+$ curl http://localhost:3000/"
 ```
 
 For remote tests, deploy your service and use the endpoint displayed at the end of the deployment.  
+The API is secured using a custom authorizer expecting a JWT token.  
+At the moement the authorizer is not integrated with any OpenID Connect service and is not validating the token. A production grade solution would need to cover both.  
+At the moment you can provide 'standard' or 'admin', the first one will have access to GET, the later to POST and DELETE as well.  
 ```bash
 $ sam deploy
-$ curl https://<API-ID>.execute-api.<REGION>.amazonaws.com/Prod/items -H "Authorization: Bearer <YOUR.ACCESS.TOKEN>"
+$ curl https://<API-ID>.execute-api.<REGION>.amazonaws.com/Prod/items/1 -H "Authorization: Bearer standard" -X DELETE
+$ {"Message":"User is not authorized to access this resource with an explicit deny"}
 ```
 
 ## Fetch, tail, and filter Lambda function logs
@@ -75,10 +75,6 @@ $ sam delete --stack-name sam-crud-sample
 ```
 
 ## Todo
-- Auth0 integration 
-  - API GW custom authorizers
-    - https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
-    - https://auth0.com/docs/customize/integrations/aws/aws-api-gateway-custom-authorizers  
 - hard delete if admin role
 - webSocket API
 - get_all with consistent pagination
