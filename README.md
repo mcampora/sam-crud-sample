@@ -59,7 +59,9 @@ At the moment you can provide 'standard' or 'admin', the first one will have acc
 ```bash
 $ sam deploy
 $ curl https://<API-ID>.execute-api.<REGION>.amazonaws.com/Prod/items/1 -H "Authorization: Bearer standard" -X DELETE
-$ {"Message":"User is not authorized to access this resource with an explicit deny"}
+{"Message":"User is not authorized to access this resource with an explicit deny"}
+$ curl https://<API-ID>.execute-api.<REGION>.amazonaws.com/Prod/items/1 -H "Authorization: Bearer admin" -X DELETE
+"Success - item deleted (soft)"% 
 ```
 
 ## Fetch, tail, and filter Lambda function logs
@@ -74,10 +76,8 @@ To delete the sample application that you created, use the AWS CLI. Assuming you
 $ sam delete --stack-name sam-crud-sample
 ```
 
-## Todo
-- hard delete if admin role
+## Missing
 - webSocket API
-- get_all with consistent pagination
-  - proper scan with filter and global index
-  - return and accept a pagination parameters (ie. page size, key)
+- authorisation with proper JWT token decoding and validation
+- getall with proper pagination
 - differentiate create and update
